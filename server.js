@@ -13,7 +13,8 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3001;
 
-// const Book = require('./models/book.js');
+// Require-in our Book model
+const Book = require('./models/book.js');
 
 mongoose.connect(process.env.DB_URL);
 
@@ -25,6 +26,20 @@ db.once('open', function () {
 });
 
 // ----ROUTES----
+app.get('/books', getBooks);
+
+async function getBooks(req, res, next){
+  try {
+    // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
+
+    // Here we're using our Book model for a mongoose query (.find())
+    let results = await Book.find();
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+}
+
 app.get('/test', (request, response) => {
 
   response.send('test request received');
