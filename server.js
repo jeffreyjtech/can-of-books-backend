@@ -31,8 +31,9 @@ db.once('open', function () {
 app.get('/books', getBooks);
 
 app.post('/books', postBook);
+app.delete('/books/:id', deleteBook);
 
-async function getBooks(req, res, next){
+async function getBooks(req, res, next) {
   try {
     // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
 
@@ -44,13 +45,25 @@ async function getBooks(req, res, next){
   }
 }
 
-async function postBook(req, res, next){
-  try{
+async function postBook(req, res, next) {
+  try {
     // console.log(req.body);
 
     let createdBook = await Book.create(req.body);
 
     res.status(200).send(createdBook);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function deleteBook(req, res, next) {
+  let id = req.params.id;
+  console.log(id);
+  try {
+    await Book.findByIdAndDelete(id);
+
+    res.status(200).send('Book Deleted!');
   } catch (error) {
     next(error);
   }
@@ -76,4 +89,4 @@ app.use((error, req, res, next) => { // eslint-disable-line
   res.status(error.status).send('You goofed.');
 });
 
-app.listen(PORT, () => console.log('listening on port: ',PORT));
+app.listen(PORT, () => console.log('listening on port: ', PORT));
