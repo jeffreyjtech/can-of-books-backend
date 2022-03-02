@@ -86,14 +86,28 @@ How can you best utilize these strengths in the development of your application?
    * Finish time: 3:30pm
    * Actual time needed to complete: Less than an hour
 
-1. **Feature #1: Storage**
+1. **Feature #2: Storage**
    * Estimate of time needed to complete: 2 hours
    * Start time: 3:30pm
    * Finish time: 7:00pm
    * Actual time needed to complete: 3.5 hours
 
-1. **Feature #1: Book Component**
+1. **Feature #3: Book Component**
    * Estimate of time needed to complete: 1 hour
    * Start time: 7:00pm
    * Finish time: 8:00pm
+   * Actual time needed to complete: Less than an hour
+
+### Lab 12 time estimates
+
+1. **Feature #1: Create**
+   * Estimate of time needed to complete: 1 hour
+   * Start time: 5:00pm
+   * Finish time: 7:30pm
+   * Actual time needed to complete: 2.5 hours
+
+1. **Feature #2: Delete**
+   * Estimate of time needed to complete: 1 hour
+   * Start time: 8:00pm
+   * Finish time: 8:40pm
    * Actual time needed to complete: Less than an hour
