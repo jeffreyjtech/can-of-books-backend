@@ -47,7 +47,7 @@ async function getBooks(req, res, next) {
 
 async function postBook(req, res, next) {
   try {
-    // console.log(req.body);
+    await Book.validate(...req.body);
 
     let createdBook = await Book.create(req.body);
 
@@ -86,7 +86,7 @@ app.get('*', (req, res) => {
 
 // Express error catcher
 app.use((error, req, res, next) => { // eslint-disable-line
-  res.status(error.status).send('You goofed.');
+  res.status(error.status || 500).send(error.message || 'Unknown error');
 });
 
 app.listen(PORT, () => console.log('listening on port: ', PORT));
