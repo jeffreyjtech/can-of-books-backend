@@ -47,7 +47,7 @@ async function getBooks(req, res, next) {
 
 async function postBook(req, res, next) {
   try {
-    await Book.validate(...req.body);
+    await Book.validate(req.body);
 
     let createdBook = await Book.create(req.body);
 
