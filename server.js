@@ -47,7 +47,7 @@ async function getBooks(req, res, next) {
 
 async function postBook(req, res, next) {
   try {
-    await Book.validate(...req.body);
+    await Book.validate(req.body);
 
     let createdBook = await Book.create(req.body);
 
@@ -68,6 +68,28 @@ async function deleteBook(req, res, next) {
     next(error);
   }
 }
+
+app.put('/books/:id', putBooks);
+
+async function putBooks (req, res, next) {
+  try {
+    let id = req.params.id;
+    // The book data from the client should be in req.data
+    let pendingBookData = req.body;
+
+    await Book.validate(pendingBookData);
+
+    // findByIdAndUpdate takes 3 args: (id object, data object, options object)
+    console.log('Sent update');
+    let updatedBook = await Book.findByIdAndUpdate(id, pendingBookData, {new: true, overwrite: true});
+    console.log('update good!');
+
+    res.status(200).send(updatedBook);
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 app.get('/test', (request, response) => {
 

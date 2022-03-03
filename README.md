@@ -111,3 +111,11 @@ How can you best utilize these strengths in the development of your application?
    * Start time: 8:00pm
    * Finish time: 8:40pm
    * Actual time needed to complete: Less than an hour
+
+### Lab 13 time estimates
+
+1. **Feature #2: Update**
+   * Estimate of time needed to complete: 2 hours
+   * Start time: 2:30 PM
+   * Finish time: 4:30 PM
+   * Actual time needed to complete: 2 hours
