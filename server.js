@@ -6,17 +6,20 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+// Auth requires
+const verifyUser = require('./auth.js');
+
 
 // Middle ware
 const app = express();
 app.use(cors());
-
 app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 
 // Require-in our Book model
 const Book = require('./models/book.js');
+const { request, response } = require('express');
 
 mongoose.connect(process.env.DB_URL);
 
@@ -27,6 +30,7 @@ db.once('open', function () {
   console.log('Mongoose is connected');
 });
 
+
 // ----ROUTES----
 app.get('/books', getBooks);
 
@@ -34,15 +38,32 @@ app.post('/books', postBook);
 app.delete('/books/:id', deleteBook);
 
 async function getBooks(req, res, next) {
-  try {
-    // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
 
-    // Here we're using our Book model for a mongoose query (.find())
-    let results = await Book.find();
-    res.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
+  verifyUser(request, async (err, user) => {
+    if(err) {
+      console.error(err);
+      response.send('Invalid token');
+    } else {
+      try {
+        // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
+
+        // Here we're using our Book model for a mongoose query (.find())
+        const bookQuery = {};
+        if (user.email) {
+          bookQuery.email = user.email;
+        }
+
+        console.log('Book find sent');
+        let results = await Book.find(bookQuery);
+        console.log('Book find received!');
+
+        res.status(200).send(results);
+      } catch (error) {
+        next(error);
+      }
+    }
+  });
+
 }
 
 async function postBook(req, res, next) {
