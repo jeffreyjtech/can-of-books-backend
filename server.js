@@ -6,11 +6,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-
 // Middle ware
 const app = express();
 app.use(cors());
-
 app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
@@ -27,6 +25,7 @@ db.once('open', function () {
   console.log('Mongoose is connected');
 });
 
+
 // ----ROUTES----
 app.get('/books', getBooks);
 
@@ -35,8 +34,6 @@ app.delete('/books/:id', deleteBook);
 
 async function getBooks(req, res, next) {
   try {
-    // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
-
     // Here we're using our Book model for a mongoose query (.find())
     let results = await Book.find();
     res.status(200).send(results);
@@ -59,7 +56,6 @@ async function postBook(req, res, next) {
 
 async function deleteBook(req, res, next) {
   let id = req.params.id;
-  console.log(id);
   try {
     await Book.findByIdAndDelete(id);
 
@@ -80,9 +76,7 @@ async function putBooks (req, res, next) {
     await Book.validate(pendingBookData);
 
     // findByIdAndUpdate takes 3 args: (id object, data object, options object)
-    console.log('Sent update');
     let updatedBook = await Book.findByIdAndUpdate(id, pendingBookData, {new: true, overwrite: true});
-    console.log('update good!');
 
     res.status(200).send(updatedBook);
   } catch (error) {
