@@ -119,3 +119,11 @@ How can you best utilize these strengths in the development of your application?
    * Start time: 2:30 PM
    * Finish time: 4:30 PM
    * Actual time needed to complete: 2 hours
+
+### Lab 15 time estimates
+
+1. **Feature #1: Auth0**
+   * Estimate of time needed to complete: 1 hour
+   * Start time: 6:15 PM
+   * Finish time: 7:15 PM
+   * Actual time needed to complete: 1 hour
