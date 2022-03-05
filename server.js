@@ -6,10 +6,6 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// Auth requires
-const verifyUser = require('./auth.js');
-
-
 // Middle ware
 const app = express();
 app.use(cors());
@@ -19,7 +15,6 @@ const PORT = process.env.PORT || 3001;
 
 // Require-in our Book model
 const Book = require('./models/book.js');
-const { request, response } = require('express');
 
 mongoose.connect(process.env.DB_URL);
 
@@ -38,32 +33,13 @@ app.post('/books', postBook);
 app.delete('/books/:id', deleteBook);
 
 async function getBooks(req, res, next) {
-
-  verifyUser(request, async (err, user) => {
-    if(err) {
-      console.error(err);
-      response.send('Invalid token');
-    } else {
-      try {
-        // let queryObject = {email: req.query.email || 'j-d-salinger@email.scam'};
-
-        // Here we're using our Book model for a mongoose query (.find())
-        const bookQuery = {};
-        if (user.email) {
-          bookQuery.email = user.email;
-        }
-
-        console.log('Book find sent');
-        let results = await Book.find(bookQuery);
-        console.log('Book find received!');
-
-        res.status(200).send(results);
-      } catch (error) {
-        next(error);
-      }
-    }
-  });
-
+  try {
+    // Here we're using our Book model for a mongoose query (.find())
+    let results = await Book.find();
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function postBook(req, res, next) {
@@ -80,7 +56,6 @@ async function postBook(req, res, next) {
 
 async function deleteBook(req, res, next) {
   let id = req.params.id;
-  console.log(id);
   try {
     await Book.findByIdAndDelete(id);
 
@@ -101,9 +76,7 @@ async function putBooks (req, res, next) {
     await Book.validate(pendingBookData);
 
     // findByIdAndUpdate takes 3 args: (id object, data object, options object)
-    console.log('Sent update');
     let updatedBook = await Book.findByIdAndUpdate(id, pendingBookData, {new: true, overwrite: true});
-    console.log('update good!');
 
     res.status(200).send(updatedBook);
   } catch (error) {
